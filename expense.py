@@ -26,7 +26,12 @@ def add_expense(list_of_arguments, db_name):
         date = datetime.date.today()
 
     params = (amount, category, date)
-    execute_query(db_name, 'INSERT INTO expense VALUES (?, ?, ?)', params)
+
+    connection = sqlite3.connect(db_name)
+    cursor_connect = connection.cursor()
+    cursor_connect.execute('INSERT INTO expense VALUES (?, ?, ?)', params)
+    connection.commit()
+
 
 def delete_expense(db_name):
     execute_query(db_name, 'DROP table expense')
