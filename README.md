@@ -4,6 +4,9 @@ Expense is a console application for tracking expenses.
 
 
 ## Installation
+
+[Install Python](https://www.python.org/downloads/)
+
 ```bash
 git clone https://github.com/mariadenadel/expense.git
 cd expense
