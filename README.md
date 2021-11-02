@@ -17,9 +17,15 @@ python3 expense.py add 100 Еда 2021-12-13 - добавлене расхода
 
 python3 expense.py list - статистика по всем категориям
 python3 expense.py list <name-of-the-category> - статистика по выбраной категории
-python3 expense.py list --day <day> - статистика за день
-python3 expense.py list --month <month> - статистика за месяц
-python3 expense.py list --year <year> - статистика за год
+python3 expense.py list --day <day> - статистика за день / <day> в формате YYYY-MM-DD
+python3 expense.py list --month <month> - статистика за месяц / <month> в формате YYYY-MM
+python3 expense.py list --year <year> - статистика за год / <year> в формате YYYY-MM
 
 python3 expense.py delete - очистить все данные
+python3 expense.py --help - помощь
 ```
+
+## Did not do
+
+Нет возможности добавления нескольких пользователей
+Не в форматированном формате выдается статистика

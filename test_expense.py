@@ -2,46 +2,29 @@ import unittest
 import sqlite3
 import datetime
 import os
-from expense import invoke, execute_query, list_all_expense
-
+from expense import invoke, execute_query, list_all_expense, delete_expense
 
 execute_query('test.db', 'CREATE TABLE IF NOT EXISTS expense (amount REAL, category TEXT, date DATE)')
 
-
 class TestExpense(unittest.TestCase):
 
-    def test_add_expense(self):
-        invoke(['expense.py add 999 testcategory 2021-12-12'], 'test.db') # разобраться почему не работает инвоук
-        result= list_all_expense('test.db')
-        self.assertEqual(result, [(999, 'testcategory', '2021-12-12')])
+    def test_add_full_expense(self):
+        full_comand = invoke(['expense.py', 'add', 999, 'testcategory', '2021-12-12'], 'test.db')
+        wanted_result = "You added 999 to expenses for category testcategory for 2021-12-12"
+        self.assertEqual(full_comand, wanted_result)
+
+        comand_without_date = invoke(['expense.py', 'add', 999, 'testcategory', datetime.date.today()], 'test.db')
+        wanted_result = f"You added 999 to expenses for category testcategory for {datetime.date.today()}"
+        self.assertEqual(comand_without_date, wanted_result)
+
+        comand_without_date_without_category = invoke(['expense.py', 'add', 999, 'uncategorized', datetime.date.today()], 'test.db')
+        wanted_result = f"You added 999 to expenses for category uncategorized for {datetime.date.today()}"
+        self.assertEqual(comand_without_date_without_category, wanted_result)
 
 
-        result = add(2, 3)
-
-        assertEqual(result, 5)
-
-    #     test_second_comand = invoke('python3 expense.py add 999 testcategory', 'test.db')
-    #     self.assertEqual(test_second_comand, 0)
-
-    #     test_third_comand = invoke('python3 expense.py add 999', 'test.db')
-    #     self.assertEqual(test_third_comand, 0)
-
-    # def test_list_expenses(self):
-    #     test_comand_all = invoke('python3 expense.py list', 'test.db')
-    #     self.assertEqual(test_comand_all, 0)
-
-    #     test_comand_day = invoke('python3 expense.py list --day 2021-11-01', 'test.db')
-    #     self.assertEqual(test_comand_day, 0)
-
-    #     test_comand_month = invoke('python3 expense.py list --month 2021-11', 'test.db')
-    #     self.assertEqual(test_comand_month, 0)
-
-    #     test_comand_year = invoke('python3 expense.py list --year 2021', 'test.db')
-    #     self.assertEqual(test_comand_year, 0)
-
-    # def test_delete_all_expenses(self):
-    #     test_comand_delete = invoke('python3 expense.py delete', 'test.db')
-    #     self.assertEqual(test_comand_delete, 0)
+    def test_list_records(self):
+        wanted_result = "Here is all your records:\n[(999.0, 'testcategory', '2021-12-12'), (999.0, 'testcategory', '2021-11-02'), (999.0, 'uncategorized', '2021-11-02')]"
+        self.assertEqual(list_all_expense('test.db'), wanted_result)
 
 if __name__ == "__main__":
     unittest.main()
